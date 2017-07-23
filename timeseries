@@ -1,0 +1,29 @@
+install.packages("WDI")
+library(WDI)
+gdp<-WDI(country = c("US", "CA", "GB", "DE", "CN", "JP", "SG", "IL", "KR"),
+         indicator=c("NY.GDP.PCAP.CD", "NY.GDP.MKTP.CD"),
+         start=1960, end=2015
+)
+names(gdp)<-c("iso2c", "Country", "Year", "PerCapGDP", "GDP")
+View(gdp)
+head(gdp)
+
+library(ggplot2)
+library(scales)
+
+ggplot(gdp, aes(Year, PerCapGDP, color=Country, linetype=Country)) + geom_line()+scale_y_continuous(label=dollar)
+
+kr<-gdp$PerCapGDP[gdp$iso2c=="KR"]
+kr<-ts(kr, start=min(gdp$Year, end=max(gdp$Year)))
+plot(kr, ylab="Per Capita GDP", xlab="Year")
+
+
+acf(kr)
+pacf(kr)
+
+install.packages("forecast")
+library(forecast)
+ndiffs(x=kr)
+plot(diff(kr, 1))
+krarima<-auto.arima(x=kr)
+krarima
