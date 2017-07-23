@@ -20,3 +20,17 @@ temp<-as.data.frame(do.call(rbind, strsplit(inven$name, ' (?=[^ ]+$)', perl=TRUE
 
 inven$name<-temp$V2
 inven$team<-temp$V1
+
+
+install.packages("rvest")
+library(rvest)
+lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
+lego_movie %>%
+  html_nodes("#titleCast .itemprop span") %>%
+  html_text()
+
+
+lego_movie %>%
+  html_nodes("table") %>%
+  .[[1]] %>%
+  html_table()
