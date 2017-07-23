@@ -34,3 +34,17 @@ lego_movie %>%
   html_nodes("table") %>%
   .[[1]] %>%
   html_table()
+  
+  
+  
+library(XML)
+url = paste0("http://www.snuco.com/html/restaurant/restaurant_menu2.asp?date=",Sys.Date())
+doc = readLines(url, encoding="CP949")
+doc = paste0(doc, collapse="\n")
+doc = iconv(doc, to="UTF-8")
+doc_parse = htmlParse(doc, isHTML=T, asText=T, encoding="UTF-8")
+lunch_menu = xpathApply(doc_parse, "//div[@id='Content']//table//tbody//tr//td", xmlValue)
+duremidam= unlist(lunch_menu)[[19]]
+`301dong` = unlist(lunch_menu)[[26]]
+cat("\n두레미담\n", gsub("\\/", "\n", duremidam), "\n\n301동\n", gsub("\\/", "\n", `301dong`), sep="")
+
