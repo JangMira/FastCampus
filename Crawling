@@ -1,3 +1,44 @@
+install.packages("rvest")
+library(rvest)
+
+
+library(rvest)
+
+url <- "http://www.tripadvisor.com/Hotel_Review-g37209-d1762915-Reviews-JW_Marriott_Indianapolis-Indianapolis_Indiana.html"
+
+
+reviews <- url %>% 
+  read_html() %>%
+  html_nodes(".innerBubble")
+
+id
+quote <- reviews %>%
+  html_node(".quote span") %>%
+  html_text()
+
+
+date <- reviews %>%
+  html_node(".rating .ratingDate,relativeDate") %>%
+  html_attr("title")
+
+
+review <- reviews %>%
+  html_node(".entry .partial_entry") %>%
+  html_text()
+
+data.frame(id, quote, date, review, stringsAsFactors = FALSE) %>% View()
+
+
+
+
+
+
+
+
+
+
+
+
 install.packages("XML")
 library(XML)
 inven<-readHTMLTable("http://lol.inven.co.kr/dataninfo/match/playerList.php", header=T)
@@ -47,4 +88,17 @@ lunch_menu = xpathApply(doc_parse, "//div[@id='Content']//table//tbody//tr//td",
 duremidam= unlist(lunch_menu)[[19]]
 `301dong` = unlist(lunch_menu)[[26]]
 cat("\n두레미담\n", gsub("\\/", "\n", duremidam), "\n\n301동\n", gsub("\\/", "\n", `301dong`), sep="")
+
+
+
+url <- "http://www.bobaedream.co.kr/cyber/CyberCar.php?gubun=K&page=1" 
+usedCar <- read_html(url) #해당 url 페이지의 html tag를 가져와서 parsing함. 
+usedCar
+str(usedCar)
+carinfos<-html_nodes(usedCar, css='.carinfo')
+carInfos[1] %>% html_nodes('.title') %>% html_text()
+
+
+
+
 
