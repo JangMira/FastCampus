@@ -1,3 +1,42 @@
+str(AirPassengers)
+plot(AirPassengers)
+plot(stl(AirPassengers, s.window="periodic"))
+
+par(mfrow=c(1,2))
+acf(AirPassengers)
+pacf(AirPassengers)
+
+library(forecast)
+ndiffs(x=AirPassengers)
+
+par(mfrow=c(1,1))
+plot(diff(AirPassengers,1))
+plot(diff(log(AirPassengers),1))
+Airs<-diff(log(AirPassengers),1)
+
+library(tseries)
+adf.test(Airs, alternative = "stationary", k=0)
+
+Airbest<-auto.arima(x=AirPassengers)
+Airbest
+
+tsdiag(auto.arima(x=AirPassengers))
+
+predict(Airbest, n.ahead=5, se.fit=TRUE) 
+
+forecast(Airbest, h=40) %>%
+plot()
+
+
+
+
+
+
+
+
+
+
+
 install.packages("WDI")
 library(WDI)
 gdp<-WDI(country = c("US", "CA", "GB", "DE", "CN", "JP", "SG", "IL", "KR"),
