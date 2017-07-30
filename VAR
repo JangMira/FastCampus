@@ -5,7 +5,7 @@ gdpCast<-dcast(Year~Country,
                value.var="PerCapGDP")
 
 View(gdpCast)
-gdpCast<-gdpCast[-c(1:10),]
+
 
 gdpTs<-ts(data=gdpCast[,-1]
           ,start=min(gdpCast$Year , end = max(start=min(gdpCast$Year))))
