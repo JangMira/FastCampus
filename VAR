@@ -1,0 +1,42 @@
+
+library(reshape2)
+gdpCast<-dcast(Year~Country,
+               data=gdp[ , c("Country","Year", "PerCapGDP" )],
+               value.var="PerCapGDP")
+
+View(gdpCast)
+gdpCast<-gdpCast[-c(1:10),]
+
+gdpTs<-ts(data=gdpCast[,-1]
+          ,start=min(gdpCast$Year , end = max(start=min(gdpCast$Year))))
+
+plot(gdpTs)
+plot(gdpTs, plot.type="single")
+plot(gdpTs, plot.type="single", col=1:8)
+legend("topleft", legend=colnames(gdpTs), lty=1, col=1:8, ncol=3)
+
+numDiffs<-ndiffs(gdpTs)
+numDiffs
+gdpdiffed<-(diff(gdpTs, 1))
+
+plot(diff(gdpdiffed, 1), plot.type="single", col=1:9)
+
+install.packages("vars")
+library(vars)
+gdpvar<-VAR(gdpdiffed, lag.max=12)
+gdpvar$p
+
+names(gdpvar$varresult)
+class(gdpvar$varresult$Korea..Rep.)
+
+coef(gdpvar$varresult$Canada)
+head(coef(gdpvar$varresult$Canada))
+
+install.packages("coefplot")
+library(coefplot)
+
+coefplot(gdpvar$varresult$Korea..Rep.)
+
+
+predict(gdpvar, n.ahead=5)->a
+plot(a)
