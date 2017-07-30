@@ -36,7 +36,7 @@ plot()
 
 
 library(WDI)
-gdp<-WDI(country = c("US", "CA", "GB", "DE", "CN", "JP", "SG", "IL", "KR"),
+gdp<-WDI(country = c("US", "CA", "GB", "CN", "JP", "SG", "IL", "KR"),
          indicator=c("NY.GDP.PCAP.CD", "NY.GDP.MKTP.CD"),
          start=1960, end=2016
 )
