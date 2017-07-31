@@ -69,6 +69,34 @@ specs<-usedCar %>%
   data.frame(carname, specs) %>% View()
 
 
+install.packages("stringr")
+library(stringr)
+str_split(carInfos[1] %>% html_nodes('.sub_01') %>% html_text(), 'ㅣ')
+str_replace('20,000km', '0', '')
+str_replace_all('20,000km', '0', '')
+str_replace_all('20,000Km', '[a-zA-Z]', '')
+
+
+splitFunction <- function(row){ 
+  return(str_split(row, 'ㅣ')[[1]]) } 
+carDetailInfo <- lapply(carInfos %>% html_nodes('.sub_01') %>% 
+                          html_text(), splitFunction) 
+
+head(carDetailInfo)
+
+
+carDetailInfo <- matrix(unlist(carDetailInfo), ncol=3, byrow=T)
+
+transmission <- carDetailInfo[,1] 
+fuel <- carDetailInfo[,2] 
+distance <- as.numeric(str_replace_all(carDetailInfo[,3], '[,a-z]','')) #숫자 형태로 바꿔주기 위해
+
+
+
+
+
+
+
 bobaecrawl<-function(x){
   return(
     for (i in 1:x){
@@ -80,22 +108,6 @@ bobaecrawl<-function(x){
     }
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -123,42 +135,6 @@ temp<-as.data.frame(do.call(rbind, strsplit(inven$name, ' (?=[^ ]+$)', perl=TRUE
 inven$name<-temp$V2
 inven$team<-temp$V1
 
-
-install.packages("rvest")
-library(rvest)
-lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
-lego_movie %>%
-  html_nodes("#titleCast .itemprop span") %>%
-  html_text()
-
-
-lego_movie %>%
-  html_nodes("table") %>%
-  .[[1]] %>%
-  html_table()
-  
-  
-  
-library(XML)
-url = paste0("http://www.snuco.com/html/restaurant/restaurant_menu2.asp?date=",Sys.Date())
-doc = readLines(url, encoding="CP949")
-doc = paste0(doc, collapse="\n")
-doc = iconv(doc, to="UTF-8")
-doc_parse = htmlParse(doc, isHTML=T, asText=T, encoding="UTF-8")
-lunch_menu = xpathApply(doc_parse, "//div[@id='Content']//table//tbody//tr//td", xmlValue)
-duremidam= unlist(lunch_menu)[[19]]
-`301dong` = unlist(lunch_menu)[[26]]
-cat("\n두레미담\n", gsub("\\/", "\n", duremidam), "\n\n301동\n", gsub("\\/", "\n", `301dong`), sep="")
-
-
-
-library(XML)
-library(RCurl)
-library(rlist)
-theurl <- getURL("https://en.wikipedia.org/wiki/Brazil_national_football_team",.opts = list(ssl.verifypeer = FALSE) )
-tables <- readHTMLTable(theurl)
-tables <- list.clean(tables, fun = is.null, recursive = FALSE)
-n.rows <- unlist(lapply(tables, function(t) dim(t)[1]))
 
 
 
