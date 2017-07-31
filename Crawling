@@ -113,30 +113,30 @@ bobaecrawl<-function(x){
 
 
 
-install.packages("XML")
 library(XML)
 inven<-readHTMLTable("http://lol.inven.co.kr/dataninfo/match/playerList.php", header=T)
 
 
 str(inven)
 inven<-inven[[2]]
-View(inven)
+
 inven<-inven[, -c(1, 2,5)]
 names(inven)<-c("name", "cmp", "result", "k", "d", "a", "kda", "help")
 str(inven)
-View(inven)
+
 
 
 inven[, 4:7]<-sapply(inven[, 4:7], function(a){as.numeric(as.character(a))})
 inven$help<-as.numeric(sub("%", "", inven$help))/100
+
+
 
 inven$name<-as.character(inven$name)
 temp<-as.data.frame(do.call(rbind, strsplit(inven$name, ' (?=[^ ]+$)', perl=TRUE)))
 
 inven$name<-temp$V2
 inven$team<-temp$V1
-
-
+View(inven)
 
 
 
