@@ -29,34 +29,6 @@ review <- reviews %>%
 data.frame(id, quote, date, review, stringsAsFactors = FALSE) %>% View()
 
 
-## advanced exercise
-url <- "http://www.bobaedream.co.kr/cyber/CyberCar.php?gubun=K&page=1" 
-usedCar <- read_html(url) 
-carname <- usedCar %>%
-  html_nodes(".carinfo a.title") %>%
-  html_text()
-
-specs<-usedCar %>%
-  html_nodes(".sub_01") %>%
-  html_text()
-  
-  data.frame(carname, specs) %>% View()
-
-
-carname<-list()
-for (i in 1:10) {
-  url<-paste0("http://www.bobaedream.co.kr/cyber/CyberCar.php?gubun=K&page=", i)
-carname [i] <- read_html(url) %>%
-  html_nodes(".carinfo a.title") %>%
-  html_text()
-}
-
-
-
-
-
-
-
 ##practice!!! (champion win rate from op.gg)
 op<-"https://www.op.gg/champion/statistics"
   
@@ -80,6 +52,42 @@ pick<-wins %>%
   html_text()
 
 data.frame(champion, rate, pick) %>% View()
+
+
+
+## advanced exercise
+url <- "http://www.bobaedream.co.kr/cyber/CyberCar.php?gubun=K&page=1" 
+usedCar <- read_html(url) 
+carname <- usedCar %>%
+  html_nodes(".carinfo a.title") %>%
+  html_text()
+
+specs<-usedCar %>%
+  html_nodes(".sub_01") %>%
+  html_text()
+  
+  data.frame(carname, specs) %>% View()
+
+
+bobaecrawl<-function(x){
+  return(
+    for (i in 1:x){
+  url<-paste0("http://www.bobaedream.co.kr/cyber/CyberCar.php?gubun=K&page=", i)
+  read_html(url) %>%
+    html_nodes(".carinfo a.title") %>%
+    html_text()%>%
+  print()
+    }
+  )
+}
+
+
+
+
+
+
+
+
 
 
 
