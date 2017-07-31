@@ -89,13 +89,14 @@ carDetailInfo <- matrix(unlist(carDetailInfo), ncol=3, byrow=T)
 
 transmission <- carDetailInfo[,1] 
 fuel <- carDetailInfo[,2] 
-distance <- as.numeric(str_replace_all(carDetailInfo[,3], '[,a-z]','')) #숫자 형태로 바꿔주기 위해
+distance <- as.numeric(str_replace_all(carDetailInfo[,3], '[,a-z]','')) 
+
+
+data.frame(carname, transmission, fuel, distance) %>% View()
 
 
 
-
-
-
+##숙제
 
 bobaecrawl<-function(x){
   return(
