@@ -69,7 +69,6 @@ specs<-usedCar %>%
   data.frame(carname, specs) %>% View()
 
 
-install.packages("stringr")
 library(stringr)
 str_split(carInfos[1] %>% html_nodes('.sub_01') %>% html_text(), 'ㅣ')
 str_replace('20,000km', '0', '')
