@@ -57,6 +57,7 @@ data.frame(champion, rate, pick) %>% View()
 
 ## advanced exercise
 url <- "http://www.bobaedream.co.kr/cyber/CyberCar.php?gubun=K&page=1" 
+
 usedCar <- read_html(url) 
 carname <- usedCar %>%
   html_nodes(".carinfo a.title") %>%
@@ -65,20 +66,30 @@ carname <- usedCar %>%
 specs<-usedCar %>%
   html_nodes(".sub_01") %>%
   html_text()
-  
-  data.frame(carname, specs) %>% View()
+
+
+price<-usedCar %>%
+  html_nodes(".price em") %>%
+  html_text()
+
+
+data.frame(carname, specs) 
 
 
 library(stringr)
-str_split(carInfos[1] %>% html_nodes('.sub_01') %>% html_text(), 'ㅣ')
+str_split(specs[1], 'ㅣ')
 str_replace('20,000km', '0', '')
 str_replace_all('20,000km', '0', '')
 str_replace_all('20,000Km', '[a-zA-Z]', '')
 
 
+price<-str_replace(price, ',', '')
+
+
 splitFunction <- function(row){ 
   return(str_split(row, 'ㅣ')[[1]]) } 
-carDetailInfo <- lapply(carInfos %>% html_nodes('.sub_01') %>% 
+
+carDetailInfo <- lapply(usedCar %>% html_nodes('.sub_01') %>% 
                           html_text(), splitFunction) 
 
 head(carDetailInfo)
@@ -91,7 +102,9 @@ fuel <- carDetailInfo[,2]
 distance <- as.numeric(str_replace_all(carDetailInfo[,3], '[,a-z]','')) 
 
 
-data.frame(carname, transmission, fuel, distance) %>% View()
+data.frame(carname, price, transmission, fuel, distance) %>% View()
+
+
 
 
 
@@ -99,12 +112,12 @@ data.frame(carname, transmission, fuel, distance) %>% View()
 
 bobaecrawl<-function(x){
   return(
-    for (i in 1:x){
-  url<-paste0("http://www.bobaedream.co.kr/cyber/CyberCar.php?gubun=K&page=", i)
-  read_html(url) %>%
-    html_nodes(".carinfo a.title") %>%
-    html_text()%>%
-  print()
+    for (i in 1:10){
+      url<-paste0("http://www.bobaedream.co.kr/cyber/CyberCar.php?gubun=K&page=", i)
+      read_html(url) %>%
+        html_nodes(".carinfo a.title") %>%
+        html_text()%>%
+        print()
     }
   )
 }
