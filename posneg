@@ -3,15 +3,18 @@ acsi.url<-"http://theacsi.org/index.php?option=com_content&view=article&id=147&c
 
 
 acsi.df<-readHTMLTable(acsi.url, header=T, which=1, stringsAsFactors=F)
+
+
+
+
 acsi.df<-acsi.df[,c(1,18)]
 acsi.df<-acsi.df[1:12,]
 
 
-#Nordstrom / Dillard's / Kohl's / Dollar General / All Others / J.C. Penney 
-#Department and Discount Stores / Target / Sears /Macy's / Exchange  /Wal-Mart 
-
-
 acsi.df<-acsi.df[c(-4,-5,-7,-11),]
+
+View(acsi.df)
+
 
 colnames(acsi.df)=c("company", "score")
 acsi.df$score<-as.numeric(acsi.df$score)
@@ -19,19 +22,15 @@ acsi.df$score<-as.numeric(acsi.df$score)
 acsi.df$code<-c("C1","C2","C3","C4","C5","C6","C7","C8")
 
 
-#http://www.sitejabber.com/reviews/
-
-#review sample
 data<-read.csv(file.choose())
 
 pos<-readLines(file.choose())
 neg<-readLines(file.choose())
 
+
+
 pos.final<-c(pos, 'upgrade')
 neg.final<-c(neg, 'wait')
-
-
-
 
 score.sentiment = function(sentences, pos.words, neg.words, .progress='none')
 {
@@ -73,20 +72,15 @@ result<-score.sentiment(data[,2], pos.final, neg.final, .progress="text")
 result$score
 
 
-amazon500<-readLines(file.choose())
-
 result$company<-data[,1]
 
 #plyr, company별 평균 점수
 result1<-ddply(result, .(company), summarise, avg=mean(score))
-
+hist(result$score)
 
 library(ggplot2)
 
-hist(result$score)
-qplot(result$score)
-
 all.scores<-result
-
-ggplot(data=all.scores)+geom_bar(mapping=aes(x=score, fill=company), binwidth=1)+facet_grid(company~.)+theme_bw()+scale_fill_brewer()
-
+ggplot(data=result)+
+  geom_bar(mapping=aes(x=score, fill=company), binwidth=1)+
+  facet_grid(company~.)+theme_bw()
