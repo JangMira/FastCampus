@@ -20,7 +20,6 @@ acsi.df$code<-c("C1","C2","C3","C4","C5","C6","C7","C8")
 
 
 #http://www.sitejabber.com/reviews/
-#Dollar General, All Others, Department and Discount Stores, Exchange없음
 
 #review sample
 data<-read.csv(file.choose())
