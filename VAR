@@ -16,9 +16,9 @@ gdpTs<-ts(data=gdpCast[,-1]
 
 plot(gdpTs)
 plot(gdpTs, plot.type="single")
-plot(gdpTs, plot.type="single", col=1:8)
+plot(gdpTs, plot.type="single", col=1:9)
 
-legend("topleft", legend=colnames(gdpTs), lty=1, col=1:8, ncol=3)
+legend("topleft", legend=colnames(gdpTs), lty=1, col=1:9, ncol=3)
 
 
 numDiffs<-ndiffs(gdpTs)
@@ -33,19 +33,13 @@ plot(diff(gdpdiffed, 1), plot.type="single", col=1:9)
 
 install.packages("vars")
 library(vars)
-gdpvar<-VAR(gdpdiffed, lag.max=12)
-gdpvar$p
+gdpvar<-VAR(gdpdiffed, lag.max=5)
+names(gdpvar)
 
 names(gdpvar$varresult)
+names(gdpvar$varresult$Korea..Rep.)
 class(gdpvar$varresult$Korea..Rep.)
 
-coef(gdpvar$varresult$Canada)
-head(coef(gdpvar$varresult$Canada))
-
-install.packages("coefplot")
-library(coefplot)
-
-coefplot(gdpvar$varresult$Korea..Rep.)
 
 
 predict(gdpvar, n.ahead=5)->a
