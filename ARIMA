@@ -20,8 +20,6 @@ adf.test(Airs, alternative = "stationary", k=0)
 Airbest<-auto.arima(x=AirPassengers)
 Airbest
 
-tsdiag(auto.arima(x=AirPassengers))
-
 predict(Airbest, n.ahead=5, se.fit=TRUE) 
 
 forecast(Airbest, h=40) %>%
