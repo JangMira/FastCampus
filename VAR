@@ -34,7 +34,7 @@ plot(diff(gdpdiffed, 1), plot.type="single", col=1:9)
 ##load and create VAR model
 install.packages("vars")
 library(vars)
-gdpvar<-VAR(gdpdiffed, lag.max=2)
+gdpvar<-VAR(gdpdiffed, lag.max=3)
 
 ## Var object
 names(gdpvar)
