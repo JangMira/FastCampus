@@ -1,3 +1,14 @@
+###data load
+library(WDI)
+gdp<-WDI(country = c("US", "CA", "GB", "CN", "JP", "SG", "IL", "KR"),
+         indicator=c("NY.GDP.PCAP.CD", "NY.GDP.MKTP.CD"),
+         start=1960, end=2016
+)
+
+
+names(gdp)<-c("iso2c", "Country", "Year", "PerCapGDP", "GDP")
+
+
 ##data reshape
 library(reshape2)
 gdpCast<-dcast(Year~Country,
