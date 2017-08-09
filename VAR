@@ -34,7 +34,7 @@ plot(diff(gdpdiffed, 1), plot.type="single", col=1:9)
 ##load and create VAR model
 install.packages("vars")
 library(vars)
-gdpvar<-VAR(gdpdiffed, lag.max=5)
+gdpvar<-VAR(gdpdiffed, lag.max=2)
 
 ## Var object
 names(gdpvar)
@@ -44,5 +44,5 @@ class(gdpvar$varresult$Korea..Rep.)
 
 
 ## predict
-predict(gdpvar, n.ahead=5)->a
-plot(a)
+predict(gdpvar, n.ahead=5) 
+plot(predict(gdpvar, n.ahead=5) )
