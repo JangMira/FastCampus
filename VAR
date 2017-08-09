@@ -17,7 +17,6 @@ gdpTs<-ts(data=gdpCast[,-1]
 
 ## check data
 plot(gdpTs)
-plot(gdpTs, plot.type="single")
 plot(gdpTs, plot.type="single", col=1:9)
 
 legend("topleft", legend=colnames(gdpTs), lty=1, col=1:9, ncol=3)
@@ -34,7 +33,7 @@ plot(diff(gdpdiffed, 1), plot.type="single", col=1:9)
 ##load and create VAR model
 install.packages("vars")
 library(vars)
-gdpvar<-VAR(gdpdiffed, lag.max=3)
+gdpvar<-VAR(gdpdiffed)
 
 ## Var object
 names(gdpvar)
